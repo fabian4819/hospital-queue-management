@@ -1,1 +1,13 @@
-<router-outlet></router-outlet>
+<mat-toolbar color="primary" class="no-print">
+  <a routerLink="/" class="brand"><mat-icon>local_hospital</mat-icon> RS Sehat Sentosa</a>
+  <nav>
+    <a mat-button routerLink="/request-queue-number" routerLinkActive="active">Ambil Nomor</a>
+    <a mat-button routerLink="/input-visitor-details" routerLinkActive="active">Input Pengunjung</a>
+    <a mat-button routerLink="/visitor-list" routerLinkActive="active">Daftar Pengunjung</a>
+  </nav>
+  <span class="spacer"></span>
+  <span class="clock">{{ now$ | async | date:'EEE, d MMM y HH:mm:ss' }}</span>
+</mat-toolbar>
+<main>
+  <router-outlet></router-outlet>
+</main>
