@@ -2,12 +2,23 @@ var createError = require('http-errors');
 var express = require('express');
 var logger = require('morgan');
 var cors = require('cors');
+var mongoose = require('mongoose');
+
+var visitorsRouter = require('./routes/visitors');
+
+mongoose.connect(process.env.MONGO_URL || 'mongodb://127.0.0.1:27017/hospital_queue')
+  .catch((err) => {
+    console.error('MongoDB connection failed:', err.message);
+    process.exit(1);
+  });
 
 var app = express();
 
 if (process.env.NODE_ENV !== 'test') app.use(logger('dev'));
 app.use(cors({ origin: process.env.CORS_ORIGIN || 'http://localhost:4200' }));
 app.use(express.json());
+
+app.use('/api', visitorsRouter);
 
 // catch 404 and forward to error handler
 app.use(function (req, res, next) {
