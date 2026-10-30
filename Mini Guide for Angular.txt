@@ -1,0 +1,16 @@
+Before starting the Angular app in testing-app. Make sure you have install both nodejs and angular in your computer :
+
+1. You Can Install NodeJs atleast version 12 from :
+https://nodejs.org/en/
+
+
+2. Basically you can install angular in your computer using 
+"npm install -g @angular/cli"
+
+3. If you have successfully install both nodejs and angular. you can start the project with open the cmd / terminal in Visual Studio Code
+
+example:
+cd C:/testing-app/
+ng serve
+
+you can check the local hosting of angular by open the browser and browse to localhost:4200.
