@@ -1,0 +1,73 @@
+.layout {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 24px;
+  align-items: flex-start;
+  justify-content: center;
+}
+
+.kiosk {
+  flex: 1 1 320px;
+  max-width: 480px;
+  text-align: center;
+  padding: 32px;
+}
+
+.take {
+  font-size: 20px;
+  padding: 12px 24px;
+  margin: 16px 0;
+}
+
+.ahead {
+  font-weight: 500;
+}
+
+.ticket-area {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 16px;
+}
+
+/* Mirrors the example ticket: serif, black on white, rules above and below. */
+.ticket {
+  width: 300px;
+  padding: 16px;
+  background: #fff;
+  color: #000;
+  font-family: "Times New Roman", Times, serif;
+  text-align: center;
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.2);
+  box-sizing: border-box;
+}
+
+.org {
+  font-weight: bold;
+  font-size: 18px;
+  border-bottom: 3px solid #000;
+  padding-bottom: 2px;
+}
+
+.number {
+  font-size: 72px;
+  font-weight: bold;
+  line-height: 1.1;
+  margin: 4px 0;
+}
+
+.barcode {
+  width: 100%;
+  margin: 8px 0 4px;
+}
+
+.time {
+  border-bottom: 3px solid #000;
+  padding-bottom: 2px;
+}
+
+.footer {
+  font-weight: bold;
+  font-size: 13px;
+  margin-top: 4px;
+}

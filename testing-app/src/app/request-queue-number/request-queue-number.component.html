@@ -1,1 +1,31 @@
-<p>request-queue-number works!</p>
+<div class="layout">
+  <mat-card class="kiosk no-print">
+    <h1>Selamat Datang</h1>
+    <p>Tekan tombol di bawah untuk mengambil nomor antrean pendaftaran.</p>
+    <button mat-raised-button color="primary" class="take" (click)="take()" [disabled]="loading">
+      <mat-icon>confirmation_number</mat-icon> Ambil Nomor Antrean
+    </button>
+    <mat-progress-bar *ngIf="loading" mode="indeterminate"></mat-progress-bar>
+    <p *ngIf="visit && ahead !== null" class="ahead">
+      {{ ahead === 0 ? 'Tidak ada antrean di depan Anda.' : ahead + ' antrean di depan Anda.' }}
+    </p>
+  </mat-card>
+
+  <div class="ticket-area" *ngIf="visit">
+    <div class="ticket">
+      <div class="org">RS SEHAT SENTOSA</div>
+      <div class="label">Nomor Antrian Anda:</div>
+      <div class="number">{{ visit.queueNumber }}</div>
+      <div class="wait">Mohon Menunggu</div>
+      <svg #barcode class="barcode"></svg>
+      <div class="time">{{ visit.createdAt | date:'dd/MM/yyyy, HH:mm:ss' }}</div>
+      <div class="footer">
+        Budayakan antri untuk kenyamanan bersama<br>
+        Terima kasih atas kunjungan Anda
+      </div>
+    </div>
+    <button mat-stroked-button color="primary" class="no-print" (click)="print()">
+      <mat-icon>print</mat-icon> Cetak Tiket
+    </button>
+  </div>
+</div>
