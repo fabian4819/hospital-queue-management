@@ -1,40 +1,20 @@
-<div fxLayout="column" fxLayoutGap="8px">
-  <button mat-raised-button style="background: slateblue" (click)="changePage('request-queue-number')"> Print Queue Number </button>
-  <button mat-raised-button style="background: green" (click)="changePage('input-visitor-details')"> Input Visitor Details </button>
-  <button mat-raised-button style="background: orange" (click)="changePage('visitor-list')"> Visitor List </button>
-</div>
-<div>
-  <h1> TASKS </h1>
-  <p>
-    This task requires you to create an application to be used in a hospital. A "Customer Queue Management" for walk-in customer.
+<h1 class="title">Customer Queue Management</h1>
+<p class="subtitle">Layanan antrean pengunjung walk-in RS Sehat Sentosa</p>
 
-    -- FRONTEND - ANGULAR --
-    This angular app includes a page to input visitors' details and a page to show a list of visitors' details.
-    All 3 pages are still blanks thus you need to design and code from ground-up.
-    <br>
-
-    Some Example For Visitor Details :
-    <br>
-    Print Queue (You can Make A Pop Up / HTML Print Using Simple Database)
-    <br>
-    <img src="./assets/img/barcodelist.PNG" alt="logo" style="width:500px; height:500px;">
-    <br>
-    Input Visitor
-    <br>
-    <img src="./assets/img/inputdata.PNG" alt="logo" style="width:700px; height:500px;">
-    <br>
-    Visitor List
-    <br>
-    <img src="./assets/img/visitorlist.PNG" alt="logo" style="width:700px; height:500px;">
-    <br>
-    -- API --
-    <br>
-    You Can Install API using Node Express and create localdatabase for gathering the data.
-    <br>
-    -- Database --
-    <br>
-    You Must Create Database Using MongoDb
-    <br>
-    Happy Creating!
-  </p>
+<div class="cards">
+  <a mat-raised-button class="card queue" routerLink="/request-queue-number">
+    <mat-icon>confirmation_number</mat-icon>
+    <span class="name">Print Queue Number</span>
+    <span class="desc">Ambil dan cetak nomor antrean</span>
+  </a>
+  <a mat-raised-button class="card input" routerLink="/input-visitor-details">
+    <mat-icon>assignment_ind</mat-icon>
+    <span class="name">Input Visitor Details</span>
+    <span class="desc">Isi biodata pengunjung dari nomor antrean</span>
+  </a>
+  <a mat-raised-button class="card list" routerLink="/visitor-list">
+    <mat-icon>list_alt</mat-icon>
+    <span class="name">Visitor List</span>
+    <span class="desc">Cari, panggil, dan export data pengunjung</span>
+  </a>
 </div>
