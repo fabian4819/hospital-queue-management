@@ -1,1 +1,107 @@
-<p>visitor-list works!</p>
+<div class="layout">
+  <mat-card class="filters">
+    <h2>Search</h2>
+    <form [formGroup]="filters" (ngSubmit)="search()">
+      <mat-form-field appearance="outline">
+        <mat-label>Nama / NIK / No. HP / Antrean</mat-label>
+        <input matInput formControlName="search">
+      </mat-form-field>
+
+      <mat-form-field appearance="outline">
+        <mat-label>Tanggal kunjungan</mat-label>
+        <mat-date-range-input [rangePicker]="rangePicker">
+          <input matStartDate formControlName="start" placeholder="Dari">
+          <input matEndDate formControlName="end" placeholder="Sampai">
+        </mat-date-range-input>
+        <mat-datepicker-toggle matSuffix [for]="rangePicker"></mat-datepicker-toggle>
+        <mat-date-range-picker #rangePicker></mat-date-range-picker>
+      </mat-form-field>
+
+      <mat-form-field appearance="outline">
+        <mat-label>Status</mat-label>
+        <mat-select formControlName="status" multiple>
+          <mat-option *ngFor="let s of statuses" [value]="s">{{ statusLabel[s] }}</mat-option>
+        </mat-select>
+      </mat-form-field>
+
+      <div class="actions">
+        <button mat-button type="button" (click)="reset()">Reset</button>
+        <button mat-raised-button class="search" type="submit"><mat-icon>search</mat-icon> Search</button>
+      </div>
+    </form>
+  </mat-card>
+
+  <mat-card class="results">
+    <div class="results-bar">
+      <button mat-raised-button class="export" (click)="exportCsv()" [disabled]="!total || exporting">
+        <mat-icon>cloud_download</mat-icon> Export CSV
+      </button>
+      <button mat-icon-button (click)="load()" aria-label="Muat ulang"><mat-icon>refresh</mat-icon></button>
+    </div>
+    <mat-progress-bar *ngIf="loading" mode="indeterminate"></mat-progress-bar>
+
+    <div class="table-wrap">
+      <table mat-table [dataSource]="items">
+        <ng-container matColumnDef="queueNumber">
+          <th mat-header-cell *matHeaderCellDef>Antrean</th>
+          <td mat-cell *matCellDef="let v" class="queue">{{ v.queueNumber }}</td>
+        </ng-container>
+
+        <ng-container matColumnDef="time">
+          <th mat-header-cell *matHeaderCellDef>Waktu</th>
+          <td mat-cell *matCellDef="let v">{{ v.createdAt | date:'d MMM y, HH:mm' }}</td>
+        </ng-container>
+
+        <ng-container matColumnDef="name">
+          <th mat-header-cell *matHeaderCellDef>Nama</th>
+          <td mat-cell *matCellDef="let v">{{ v.name || '—' }}</td>
+        </ng-container>
+
+        <ng-container matColumnDef="nik">
+          <th mat-header-cell *matHeaderCellDef>NIK</th>
+          <td mat-cell *matCellDef="let v" class="mono">{{ maskNik(v.nik) }}</td>
+        </ng-container>
+
+        <ng-container matColumnDef="phone">
+          <th mat-header-cell *matHeaderCellDef>No. HP</th>
+          <td mat-cell *matCellDef="let v">{{ v.phone || '—' }}</td>
+        </ng-container>
+
+        <ng-container matColumnDef="poli">
+          <th mat-header-cell *matHeaderCellDef>Poli</th>
+          <td mat-cell *matCellDef="let v">{{ v.poli || '—' }}</td>
+        </ng-container>
+
+        <ng-container matColumnDef="status">
+          <th mat-header-cell *matHeaderCellDef>Status</th>
+          <td mat-cell *matCellDef="let v"><span class="status status-{{ v.status }}">{{ statusLabel[v.status] }}</span></td>
+        </ng-container>
+
+        <ng-container matColumnDef="actions">
+          <th mat-header-cell *matHeaderCellDef>Aksi</th>
+          <td mat-cell *matCellDef="let v" class="row-actions">
+            <ng-container *ngIf="v.status === 'waiting' || v.status === 'called'">
+              <button mat-stroked-button color="primary" (click)="call(v)">
+                <mat-icon>campaign</mat-icon> {{ v.status === 'called' ? 'Panggil Ulang' : 'Panggil' }}
+              </button>
+              <a mat-button routerLink="/input-visitor-details" [queryParams]="{ code: v.date + '-' + v.queueNumber }">Daftar</a>
+            </ng-container>
+            <button *ngIf="v.status === 'registered'" mat-stroked-button (click)="finish(v)">
+              <mat-icon>check</mat-icon> Selesai
+            </button>
+          </td>
+        </ng-container>
+
+        <tr mat-header-row *matHeaderRowDef="columns"></tr>
+        <tr mat-row *matRowDef="let row; columns: columns"></tr>
+        <tr class="mat-row" *matNoDataRow>
+          <td class="mat-cell empty" [attr.colspan]="columns.length">Tidak ada data pengunjung</td>
+        </tr>
+      </table>
+    </div>
+
+    <mat-paginator [length]="total" [pageIndex]="pageIndex" [pageSize]="pageSize"
+                   [pageSizeOptions]="[10, 25, 50]" (page)="onPage($event)" showFirstLastButtons>
+    </mat-paginator>
+  </mat-card>
+</div>
