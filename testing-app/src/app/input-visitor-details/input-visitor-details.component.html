@@ -1,1 +1,87 @@
-<p>input-visitor-details works!</p>
+<mat-card>
+  <h2>Customer Biodata</h2>
+
+  <div class="ticket-select">
+    <mat-form-field appearance="outline">
+      <mat-label>Scan / ketik nomor antrean</mat-label>
+      <input matInput [formControl]="code" placeholder="A005" (keydown.enter)="lookup(); $event.preventDefault()">
+      <button mat-icon-button matSuffix type="button" aria-label="Cari nomor antrean" (click)="lookup()">
+        <mat-icon>search</mat-icon>
+      </button>
+    </mat-form-field>
+    <mat-form-field appearance="outline">
+      <mat-label>Atau pilih antrean hari ini</mat-label>
+      <mat-select [value]="selected?._id" (selectionChange)="select($event.value)">
+        <mat-option *ngFor="let t of openTickets" [value]="t._id">
+          {{ t.queueNumber }} · {{ statusLabel[t.status] }}
+        </mat-option>
+      </mat-select>
+      <mat-hint *ngIf="!openTickets.length">Tidak ada antrean yang menunggu</mat-hint>
+    </mat-form-field>
+  </div>
+
+  <p class="selected" *ngIf="selected; else noTicket">
+    Mengisi biodata untuk nomor <strong>{{ selected.queueNumber }}</strong>
+    <span class="status status-{{ selected.status }}">{{ statusLabel[selected.status] }}</span>
+  </p>
+  <ng-template #noTicket><p class="selected muted">Pilih nomor antrean terlebih dahulu.</p></ng-template>
+
+  <form [formGroup]="form" #formDir="ngForm" (ngSubmit)="submit(formDir)" class="grid">
+    <mat-form-field appearance="outline">
+      <mat-label>Nama Lengkap</mat-label>
+      <input matInput formControlName="name" maxlength="100">
+      <mat-error>Nama wajib diisi</mat-error>
+    </mat-form-field>
+
+    <mat-form-field appearance="outline">
+      <mat-label>NIK</mat-label>
+      <input matInput formControlName="nik" inputmode="numeric" maxlength="16">
+      <mat-hint align="end">{{ form.value.nik?.length || 0 }}/16</mat-hint>
+      <mat-error>NIK harus 16 digit angka</mat-error>
+    </mat-form-field>
+
+    <mat-form-field appearance="outline">
+      <mat-label>No. HP</mat-label>
+      <input matInput formControlName="phone" type="tel" placeholder="08xxxxxxxxxx">
+      <mat-error>Format nomor HP: 08xx atau +628xx</mat-error>
+    </mat-form-field>
+
+    <mat-form-field appearance="outline">
+      <mat-label>Jenis Kelamin</mat-label>
+      <mat-select formControlName="gender">
+        <mat-option value="L">Laki-laki</mat-option>
+        <mat-option value="P">Perempuan</mat-option>
+      </mat-select>
+      <mat-error>Jenis kelamin wajib dipilih</mat-error>
+    </mat-form-field>
+
+    <mat-form-field appearance="outline">
+      <mat-label>Tanggal Lahir</mat-label>
+      <input matInput formControlName="birthDate" [matDatepicker]="birthPicker" [max]="maxBirthDate">
+      <mat-datepicker-toggle matSuffix [for]="birthPicker"></mat-datepicker-toggle>
+      <mat-datepicker #birthPicker startView="multi-year"></mat-datepicker>
+      <mat-error>Tanggal lahir wajib diisi dan tidak boleh di masa depan</mat-error>
+    </mat-form-field>
+
+    <mat-form-field appearance="outline">
+      <mat-label>Poli Tujuan</mat-label>
+      <mat-select formControlName="poli">
+        <mat-option *ngFor="let p of poli" [value]="p">{{ p }}</mat-option>
+      </mat-select>
+      <mat-error>Poli wajib dipilih</mat-error>
+    </mat-form-field>
+
+    <mat-form-field appearance="outline" class="full">
+      <mat-label>Alamat</mat-label>
+      <textarea matInput formControlName="address" rows="3" maxlength="300"></textarea>
+      <mat-error>Alamat wajib diisi</mat-error>
+    </mat-form-field>
+
+    <div class="actions full">
+      <button mat-raised-button color="primary" type="submit" [disabled]="saving">
+        <mat-icon>save</mat-icon> Simpan
+      </button>
+      <button mat-button type="button" (click)="clear(formDir)">Reset</button>
+    </div>
+  </form>
+</mat-card>

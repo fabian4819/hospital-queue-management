@@ -1,0 +1,37 @@
+h2 {
+  margin-top: 0;
+}
+
+.ticket-select,
+.grid {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  column-gap: 24px;
+}
+
+.full {
+  grid-column: 1 / -1;
+}
+
+.selected {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  margin: 0 0 16px;
+}
+
+.muted {
+  color: rgba(0, 0, 0, 0.54);
+}
+
+.actions {
+  display: flex;
+  gap: 8px;
+}
+
+@media (max-width: 700px) {
+  .ticket-select,
+  .grid {
+    grid-template-columns: 1fr;
+  }
+}
